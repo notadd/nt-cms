@@ -1,0 +1,58 @@
+type Query {
+    getAllPage(pageNumber: Int, pageSize: Int, name: String): AllPageResult
+    getOnePage(alias: String): OnePageResult
+}
+
+type Mutation {
+    createPage(page: CreatePageRequest): CommonResult
+    updatePage(page: UpdatePageRequest): CommonResult
+    deletePage(id: Int): CommonResult
+}
+
+type AllPageResult {
+    code: Int
+    message: String
+    data: [OnePage]
+    total: Int
+}
+
+type OnePage {
+    name: String
+    alias: String
+    pageSortId: Int
+    contents: [Content]
+}
+
+type Content {
+    id: Int
+    name: String
+    alias: String
+    value: String
+}
+
+input ContentInput {
+    name: String
+    alias: String
+    value: String
+}
+
+type OnePageResult {
+    code: Int
+    message: String
+    data: OnePage
+}
+
+input CreatePageRequest {
+    name: String
+    alias: String
+    pageSortId: Int
+    contents: [ContentInput]
+}
+
+input UpdatePageRequest {
+    id: Int
+    name: String
+    alias: String
+    pageSortId: Int
+    content: [ContentInput]
+}

@@ -1,0 +1,47 @@
+type Query {
+    getAllPageSort(pageNumber: Int, pageSize: Int): AllPageSortResult
+    getOnePageSort(id: Int): OnePageSortResult
+}
+
+type Mutation {
+    createPageSort(pageSort: CreatePageSortInput): CommonResult
+    updatePageSort(pageSort: UpdatePageSortInput): CommonResult
+    deletePageSort(id: Int): CommonResult
+}
+
+input CreatePageSortInput {
+    name: String
+    alias: String
+    parent: ParentPageSort
+}
+
+input ParentPageSort {
+    id: Int
+}
+
+input UpdatePageSortInput {
+    id: Int
+    name: String
+    alias: String
+    parent: ParentPageSort
+}
+
+type AllPageSortResult {
+    code: Int
+    message: String
+    data: JSON
+}
+
+type PageSort {
+    id: Int
+    name: String
+    alias: String
+    parent: PageSort
+    children: [PageSort]
+}
+
+type OnePageSortResult {
+    code: Int
+    message: String
+    data: PageSort
+}

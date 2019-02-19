@@ -1,0 +1,65 @@
+type Query {
+    # 查看所有组图信息
+    findpGs(currentPage:Int, pageSize:Int):pGResults
+    # 通过id查看图片组信息
+    findpG(id: Int):pGResult
+}
+
+type Mutation {
+    # 新增图片组的图片.id为图片组id
+    addPicture(id:Int pic:InputPicture): CommonResult
+    # 编辑图片组的图片
+    updatePicture(pic:InputPictures): CommonResult
+    # 删除图片组的图片
+    delPicture(id:Int): CommonResult
+    # 新增图片组
+    addPicGroup(name:String): CommonResult
+    # 删除图片组
+    delPicGroup(id:Int): CommonResult
+    # 修改图片组信息
+    updatePicGroup(pG:InputpG): CommonResult
+}
+
+input InputpG {
+    id:Int
+    name: String
+}
+
+input InputPicture {
+    name: String
+    title: String
+    Url: String
+    sequence: Int
+}
+
+input InputPictures {
+    id: Int
+    name: String
+    title: String
+    Url: String
+    sequence: Int
+}
+
+type pGResults {
+    code: Int
+    message: String
+    total: Int
+    data: [picGroup]
+}
+
+type picGroup {
+    id: Int
+    name: String
+}
+
+type pGResult {
+    code: Int
+    message: String
+    data: picGroups
+}
+
+type picGroups {
+    id: Int
+    name: String
+    pictures:[Pictures]
+}

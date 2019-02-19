@@ -1,0 +1,121 @@
+type Query{
+    getAllArticle(classifyId: Int, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getRecycleArticle(classifyId: Int, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getCheckArticle(classifyId: Int, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getArticleById(id: Int): OneArticleResponse
+    userGetArticles(alias: String, pageNumber: Int, pageSize: Int): UserGetArtResponse
+}
+
+type Mutation{
+    createArticle(article: CreateArticleInput): CommonResult
+    updateArticle(article: UpdateArticleInput): CommonResult
+    recycleArticleByIds(ids: [Int]): CommonResult
+    deleteArticleByIds(ids: [Int]): CommonResult
+    recoverArticleByIds(ids: [Int]): CommonResult
+    auditArticle(ids: [Int], op: Int, refuseReason: String): CommonResult
+}
+
+type AllArticleResponse {
+    code: Int
+    message: String
+    total: Int
+    data: [Art]
+}
+
+type UserGetArtResponse {
+    code: Int
+    message: String
+    total: Int
+    data: [UserArt]
+}
+
+type UserArt {
+    id: Int
+    title: String
+    content: String
+    abstract: String
+    classify: ClassifyData
+    createdAt: String
+    modifyAt: String
+    cover: String
+    keywords: String
+    like: Int
+    sourceUrl: String
+    source: String
+}
+
+type Art {
+    id: Int
+    title: String
+    source: String
+    classify: ClassifyData
+    sourceUrl: String
+    top: Boolean
+    views: Int
+    cover: String
+    abstract: String
+    content: String
+    status: Int
+    refuseReason: String
+    recycling: Boolean
+    createdAt: String
+    modifyAt: String
+    username: String
+    artInfos: [ArtInfos]
+    keywords: String
+}
+
+type ArtInfos {
+    id: Int
+    relationId: Int
+    value: String
+}
+
+type OneArticleResponse {
+    code: Int
+    message: String
+    data: Art
+}
+
+input CreateArticleInput {
+    title: String
+    username: String
+    owner: Int
+    classify: CreateArticleClassify
+    cover: String
+    abstract: String
+    content: String
+    top: Boolean
+    source: String
+    sourceUrl: String
+    infoKVs: [CreateInfoKV]
+}
+
+input CreateArticleClassify {
+    id: Int
+}
+
+input CreateInfoKV {
+    infoItemId: Int
+    artInfoValue: String
+}
+
+input UpdateArticleInput {
+    id: Int
+    title: String
+    username: String
+    classifyId: Int
+    cover: String
+    abstract: String
+    content: String
+    top: Boolean
+    source: String
+    sourceUrl: String
+    infoKVs: [UpdateInfoKV]
+}
+
+input UpdateInfoKV{
+    artInfoId: Int
+    artInfoValue: String
+    infoItemId: Int
+}

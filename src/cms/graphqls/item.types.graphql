@@ -1,0 +1,22 @@
+type Mutation {
+    createItem(item: CreateItemInput): CommonResult
+    updateItem(item: UpdateItemInput): CommonResult
+    deleteItem(id: Int): CommonResult
+}
+
+input CreateItemInput {
+    name: String
+    explain: String
+    style: String
+    regular: String
+    info: String
+}
+
+input UpdateItemInput {
+    id: Int
+    name: String
+    explain: String
+    style: String
+    regular: String
+    info: String
+}

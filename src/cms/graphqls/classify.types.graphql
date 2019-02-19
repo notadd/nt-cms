@@ -1,0 +1,74 @@
+type Query {
+    getAllClassify(id: Int): AllClassifyResult
+    getOneClassify(id: Int): OneClassifyResult
+    getParentClassify(id: Int): AllClassifyResult
+}
+
+type Mutation {
+    addClassify(classify: AddClassifyInput): CommonResult
+    deleteClassify(id: Int): CommonResult
+    updateClassify(classify: UpdateClassify): CommonResult
+    mobileArticles(oldId: Int,newId: Int): CommonResult
+}
+
+type AllClassifyResult {
+    code: Int
+    message: String
+    data: JSON
+}
+
+type OneClassifyResult {
+    code: Int
+    message: String
+    data: JSON
+}
+
+type ClassifyData {
+    id: Int
+    name: String
+    alias: String
+    onlyChildrenArt: Boolean
+    classifyItem: [CmsInfoItemData]
+}
+
+type CmsInfoItemData {
+    id: Int
+    name: String
+    explain: String
+    style: String
+    regular: String
+    info: String
+}
+
+type CommonResult {
+    code: Int
+    message: String
+}
+
+input AddClassifyInput {
+    name: String
+    alias: String
+    parent: ParentClassify
+    onlyChildrenArt: Boolean
+    classifyItem: [ClassifyItemInput]
+}
+
+input ParentClassify {
+    id: Int
+}
+
+input UpdateClassify {
+    id: Int
+    name: String
+    alias: String
+    onlyChildrenArt: Boolean
+    parent: ParentClassify
+}
+
+input ClassifyItemInput {
+    name: String
+    alias: String
+    required: Boolean
+    order: Int
+    itemId: Int
+}
