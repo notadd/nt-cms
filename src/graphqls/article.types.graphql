@@ -15,6 +15,9 @@ type Mutation{
     auditArticle(ids: [Int], op: Int, refuseReason: String): CommonResult
 }
 
+"JSON data"
+scalar JSON
+
 type AllArticleResponse {
     code: Int
     message: String
