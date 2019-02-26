@@ -1,4 +1,11 @@
-## 安装node.js
+
+## 环境要求：
+
+Nodejs: 8+
+数据库： PostgreSQL 9.5+, MariaDB 10.2+, Mysql 5.7+, SQLite, MS SQL Server, Oracle (任意一种)
+
+
+**安装Node.js**
 
 <details>
 <summary>Windows</summary>
@@ -39,6 +46,7 @@ v10.15.1
 curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -
 sudo apt-get install -y nodejs
 ```
+（如果安装缓慢，可以使用[国内镜像源](http://mirrors.ustc.edu.cn/help/nodesource.html)）
 终端可以打出以下信息说明安装成功：
 ```
 $ node -v
@@ -54,6 +62,7 @@ $ npm -v
 ```
 curl -sL https://rpm.nodesource.com/setup_10.x | bash -
 ```
+（如果安装缓慢，可以使用[国内镜像源](http://mirrors.ustc.edu.cn/help/nodesource.html)）
 终端可以打出以下信息说明安装成功：
 ```
 $ node -v
@@ -105,9 +114,25 @@ $ npm -v
 </details>
 
 
+**安装数据库**
 
+<details>
+<summary>Postgresql （推荐）</summary>
 
+Windows 和 Mac 用户 [点击下载安装包](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
 
+Linux 用户使用 apt/yum 等直接安装:
 
+```
+apt install  postgresql
+```
+或者使用 snap :
+
+```
+snap install postgresql10
+```
+如果要开外部访问，以及其他配置，请参考 [postgresql配置]()
+</details>
+Sqlite3 无需安装，Mysql 及 其他数据库 请参考官方文档自行安装。
 
 
