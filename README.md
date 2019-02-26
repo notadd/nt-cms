@@ -21,7 +21,7 @@ Nodejs: 8+
 
 ## 使用说明
 
-git clone源码
+gitclone源码;
 - `git clone https://github.com/notadd/nt-cms.git`
 
 进入项目目录下安装项目依赖
@@ -29,8 +29,9 @@ git clone源码
 - `npm install`
 
 创建项目需要的数据库并在`ormconfig.js`文件中配置数据库连接;
-```
+
 postgres:
+```
     TypeOrmModule.forRoot({
         type: 'postgres',
         host: 'localhost',
@@ -44,8 +45,9 @@ postgres:
         synchronize: true,
         dropSchema: false
     }),
-
+```
 mysql:
+```
     TypeOrmModule.forRoot({
         type: 'mysql',
         host: 'localhost',
@@ -59,22 +61,77 @@ mysql:
             'src/**/**.entity.ts'
         ]
     }),
-
+```
 sqlite: 
+```
     TypeOrmModule.forRoot({
         type: 'sqlite',
         database: 'module_test'
     }) 
-
 ```
 
 配置完成,运行项目
 - `npm run start`
 如果没有报错,打开浏览器访问: localhost:3000/graphql
 
+## 实体定义
+- `classify`: 文章分类。一个文章分类对应多篇文章。
+- `article`: 文章。一篇文章对应一个文章分类。不同分类的文章需要输入的内容可能不同,详见信息项。
+- `item`: 信息项。你可以设置你想要文章展示的项,并将其与文章分类相绑定。这样在添加对应分类的文章时,也需要添加该信息项的值。
+- `page-sort`: 页面分类。等同于文章分类。
+- `page`: 页面。页面的作用是控制页面上需要显示的内容,如:页面footer、header、友情链接、联系我们等部分的内容。
+- `pictureGroup`: 轮播图组。可以设置多组轮播图,使其在不同的页面上展示。
+
 ## 常用接口介绍
 
+### 文章分类
 
+**Mutation**:
+
+- `addClassify` 添加文章分类
+- `deleteClassify` 删除文章分类
+
+**Query**:
+
+-`getAllClassify` 获取全部分类结构
+-`getOneClassify` 获取单个文章分类数据
+
+### 文章
+
+**Mutation**:
+
+- `createArticle` 创建文章
+- `recycleArticleByIds` 批量将文章放入回收站
+- `auditArticle` 批量审核文章
+
+**Query**:
+
+- `getAllArticle` 根据条件分页搜索文章
+- `getRecycleArticle` 根据条件搜索回收站文章
+- `getArticleById` 通过id获取文章详情
+
+### 信息项
+
+**Mutation**:
+
+- `createItem` 创建信息项
+- `deleteItem` 删除信息项
+
+**Query**:
+
+- `getAllItem` 获取所有信息项
+- `getOneItem` 通过id获取信息项详情
+
+### 轮播图
+
+**Query**:
+
+- `findpG` 通过id查看图片组信息
+
+**Mutation**:
+
+- `addPicGroup` 新增图片组
+- `addPicture` 新增图片组的图片
 
 ## 环境安装
 
