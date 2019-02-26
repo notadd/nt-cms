@@ -40,7 +40,9 @@ gitclone源码;
 
 创建项目需要的数据库并在`ormconfig.js`文件中配置数据库连接;
 
-postgres:
+<details>
+<summary>postgres:</summary>
+
 ```
     TypeOrmModule.forRoot({
         type: 'postgres',
@@ -56,7 +58,11 @@ postgres:
         dropSchema: false
     }),
 ```
-mysql:
+</details>
+
+<details>
+<summary>mysql:</summary>
+
 ```
     TypeOrmModule.forRoot({
         type: 'mysql',
@@ -72,13 +78,20 @@ mysql:
         ]
     }),
 ```
-sqlite: 
+</details>
+<details>
+<summary>sqlite:</summary>
+
+
 ```
     TypeOrmModule.forRoot({
         type: 'sqlite',
         database: 'module_test'
     }) 
 ```
+</details>
+
+
 
 配置完成,运行项目
 - `npm run start`
