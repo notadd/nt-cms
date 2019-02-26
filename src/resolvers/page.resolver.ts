@@ -1,7 +1,7 @@
 import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
 import { Inject } from '@nestjs/common';
 import { PageService } from '../services/page.service';
-import { PageInput } from '../interfaces/page.interface';
+import { PageInput, PageUpdateInput } from '../interfaces/page.interface';
 import { Page } from '../entities/page.entity';
 
 @Resolver()
@@ -11,29 +11,33 @@ export class PageResolver {
     ) { }
 
     @Query('getAllPage')
-    async getAllPage(obj, body: { pageNumber: number, pageSize: number, name: string }) {
-        return await this.pageService.getAllPage(body.pageNumber, body.pageSize, body.name);
+    async getAllPage(obj, body: { name: string, alias: string, pageNumber: number, pageSize: number}) {
+        const result = await this.pageService.getAllPage(body.name, body.alias, body.pageNumber, body.pageSize);
+        return { code: 200, message: '查询成功!', data: result.data, total: result.total };
     }
 
     @Query('getOnePage')
     async getOnePage(obj, body: { alias: string }) {
         const a = await this.pageService.getOnePage(body.alias);
-        return a;
+        return { code: 200, message: '查询成功!', data: a };
     }
 
     @Mutation('createPage')
     async createPage(obj, body: { page: PageInput }) {
-        return await this.pageService.createPage(body.page);
+        await this.pageService.createPage(body.page);
+        return { code: 200, message: '创建成功!' };
     }
 
     @Mutation('updatePage')
-    async updatePage(obj, body: { page: Page }) {
-        return await this.pageService.updatePage(body.page);
+    async updatePage(obj, body: { page: PageUpdateInput }) {
+        await this.pageService.updatePage(body.page);
+        return { code: 200, message: '修改成功!' };
     }
 
     @Mutation('deletePage')
-    async deletePage(obj, body: { id: number }) {
-        return await this.pageService.deletePage(body.id);
+    async deletePage(obj, body: { alias: [string] }) {
+        await this.pageService.deletePage(body.alias);
+        return { code: 200, message: '删除成功!' };
     }
 
 }

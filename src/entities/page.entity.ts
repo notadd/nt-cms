@@ -25,6 +25,11 @@ export class Page {
     })
     lastUpdateTime: string;
 
+    @Column({
+        nullable: true
+    })
+    structure: string;
+
     @OneToMany(type => Content, content => content.page, { cascade: ['insert', 'update'] })
     contents: Content[];
 
