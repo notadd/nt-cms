@@ -1,3 +1,69 @@
+#Notadd CMS模块(Graphql版本)
+
+## 功能
+
+- [x] 文章分类管理
+- [x] 文章列表查询
+- [x] 文章批量审核
+- [x] 文章批量删除
+- [x] 页面分类管理
+- [x] 页面管理
+- [x] 轮播图管理
+
+## 使用说明
+
+gitclone源码;
+- `git clone https://github.com/notadd/nt-cms.git`
+
+进入项目目录下安装项目依赖
+
+- `npm install`
+
+创建项目需要的数据库并在`ormconfig.js`文件中配置数据库连接;
+```
+postgres:
+    TypeOrmModule.forRoot({
+        type: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: '123456',
+        database: 'module_test',
+        entities: ['src/**/**.entity.ts', 'node_modules/**/**.entity.js'],
+        logger: 'advanced-console',
+        logging: true,
+        synchronize: true,
+        dropSchema: false
+    }),
+
+mysql:
+    TypeOrmModule.forRoot({
+        type: 'mysql',
+        host: 'localhost',
+        port: '3306',
+        username: 'test',
+        password: 'test',
+        database: 'test',
+        synchronize: true,
+        logging: true,
+        entities: [
+            'src/**/**.entity.ts'
+        ]
+    }),
+
+sqlite: 
+    TypeOrmModule.forRoot({
+        type: 'sqlite',
+        database: 'module_test'
+    }) 
+
+```
+
+配置完成,运行项目
+- `npm run start`
+如果没有报错,打开浏览器访问: localhost:3000/graphql
+
+## 常用接口介绍
 
 ## 环境要求：
 
