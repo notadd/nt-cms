@@ -1,5 +1,6 @@
 export interface CreatePageSort {
-    name: string;
-    alias: string;
-    parent: { id: number };
+    label: string;
+    value: string;
+    parent: { value: string };
+    structure: string;
 }

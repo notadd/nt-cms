@@ -15,18 +15,18 @@ export class PageSortService {
     async createPageSort(pageSort: CreatePageSort) {
         try {
             const ignore = await this.psRepo.count();
-            if (!pageSort.parent.id || ignore <= 0) {
-                await this.psRepo.save({ name: pageSort.name, alias: pageSort.alias });
+            if (!pageSort.parent.value || ignore <= 0) {
+                await this.psRepo.save({ label: pageSort.label, value: pageSort.value });
                 return { code: 200, message: '创建成功' };
             }
             if (pageSort.parent) {
-                const exist = await this.psRepo.findOne(pageSort.parent.id);
+                const exist = await this.psRepo.findOne({ where: { value: pageSort.parent.value } });
                 if (!exist) {
                     throw new HttpException('当前分类父节点不存在!', 404);
                 }
                 pageSort.parent = exist;
             }
-            const result = await this.psRepo.findOne({ where: { alias: pageSort.alias } });
+            const result = await this.psRepo.findOne({ where: { value: pageSort.value } });
             if (result) {
                 throw new HttpException('别名重复!', 406);
             }
@@ -37,20 +37,21 @@ export class PageSortService {
     }
 
     async updatePageSort(pageSort: PageSort) {
-        const exist = await this.psRepo.findOne(pageSort.id);
+        const exist = await this.psRepo.findOne(pageSort.id, { relations: ['parent'] });
         if (!exist) {
             throw new HttpException('该页面分类不存在!', 404);
         }
-        if (pageSort.alias && pageSort.alias !== exist.alias) {
-            if (await this.psRepo.findOne({ alias: pageSort.alias })) {
+        if (pageSort.value && pageSort.value !== exist.value) {
+            if (await this.psRepo.findOne({ value: pageSort.value })) {
                 throw new HttpException('别名重复!', 406);
             }
         }
-        const parent = await this.psRepo.findOne(pageSort.parent.id);
+        const parent = await this.psRepo.findOne({ where: { value: pageSort.parent.value } });
         if (!parent) {
             throw new HttpException('该上级分类不存在!', 404);
         }
         try {
+            pageSort.parent = parent;
             await this.psRepo.save(await this.psRepo.create(pageSort));
         } catch (error) {
             throw new HttpException(error.toString(), 400);
@@ -78,8 +79,8 @@ export class PageSortService {
         return await this.psRepo.findTrees();
     }
 
-    async getOnePageSort(id: number) {
-        const exist = await this.psRepo.findOne(id);
+    async getOnePageSort(alias: string) {
+        const exist = await this.psRepo.findOne({ where: { value: alias } });
         if (!exist) {
             throw new HttpException('该页面分类不存在!', 404);
         }

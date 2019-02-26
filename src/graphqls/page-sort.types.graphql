@@ -1,6 +1,6 @@
 type Query {
-    getAllPageSort(pageNumber: Int, pageSize: Int): AllPageSortResult
-    getOnePageSort(id: Int): OnePageSortResult
+    getAllPageSort: AllPageSortResult
+    getOnePageSort(alias: String): OnePageSortResult
 }
 
 type Mutation {
@@ -10,20 +10,22 @@ type Mutation {
 }
 
 input CreatePageSortInput {
-    name: String
-    alias: String
+    label: String
+    value: String
     parent: ParentPageSort
+    structure: String
 }
 
 input ParentPageSort {
-    id: Int
+    value: String
 }
 
 input UpdatePageSortInput {
     id: Int
-    name: String
-    alias: String
+    label: String
+    value: String
     parent: ParentPageSort
+    structure: String
 }
 
 type AllPageSortResult {
@@ -34,10 +36,11 @@ type AllPageSortResult {
 
 type PageSort {
     id: Int
-    name: String
-    alias: String
+    label: String
+    value: String
     parent: PageSort
     children: [PageSort]
+    structure: String
 }
 
 type OnePageSortResult {

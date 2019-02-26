@@ -13,12 +13,14 @@ export class PageSortResolver {
 
     @Query('getAllPageSort')
     async getAllPageSort() {
-        return await this.psService.getAllPageSort();
+        const data = await this.psService.getAllPageSort();
+        return { code: 200, message: '查询成功!', data };
     }
 
     @Query('getOnePageSort')
-    async getOnePageSort(obj, body: { id: number }) {
-        return await this.psService.getOnePageSort(body.id);
+    async getOnePageSort(obj, body: { alias: string }) {
+        const data = await this.psService.getOnePageSort(body.alias);
+        return { code: 200, message: '查询成功!', data };
     }
 
     @Mutation('createPageSort')
@@ -29,12 +31,14 @@ export class PageSortResolver {
 
     @Mutation('updatePageSort')
     async updatePageSort(obj, body: { pageSort: PageSort }) {
-        return await this.psService.updatePageSort(body.pageSort);
+        await this.psService.updatePageSort(body.pageSort);
+        return { code: 200, message: '修改成功!' };
     }
 
     @Mutation('deletePageSort')
     async deletePageSort(obj, body: { id: number }) {
-        return await this.psService.deletePageSort(body.id);
+        await this.psService.deletePageSort(body.id);
+        return { code: 200, message: '删除成功!' };
     }
 
 }
