@@ -135,6 +135,7 @@ sqlite:
 
 ## 项目结构
 
+```
 .
 ├── ormconfig.js            数据库配置
 ├── src
@@ -148,7 +149,7 @@ sqlite:
 └── starter
     ├── app.module.ts       根模块
     └── main.ts             程序入口文件
-
+```
 
 
 ## 环境安装
