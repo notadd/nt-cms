@@ -1,5 +1,15 @@
 # Notadd CMS
 
+## 特性
+
+- 现代化管理面板（可选）
+- AOP 面向切面编程，基于 Nest.js 
+- 便于维护，基于 Typescript 
+- 高性能 【异步IO，单机并发1W+】
+- 不限于前端，支持 Vue（推荐Nuxt）、Angular 、React
+- 强大的 API： 支持 Graphql
+- 优雅的 ORM ： 基于Typeorm
+
 ## 功能
 
 - [x] 文章分类管理
