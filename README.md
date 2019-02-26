@@ -1,4 +1,4 @@
-#Notadd CMS模块(Graphql版本)
+# Notadd CMS
 
 ## 功能
 
@@ -10,9 +10,16 @@
 - [x] 页面管理
 - [x] 轮播图管理
 
+
+## 环境要求：
+
+Nodejs: 8+    
+数据库： PostgreSQL 9.5+, MariaDB 10.2+, Mysql 5.7+, SQLite, Mongodb, MS SQL Server, Oracle (任意一种)
+
+
 ## 使用说明
 
-gitclone源码;
+git clone源码
 - `git clone https://github.com/notadd/nt-cms.git`
 
 进入项目目录下安装项目依赖
@@ -65,11 +72,9 @@ sqlite:
 
 ## 常用接口介绍
 
-## 环境要求：
 
-Nodejs: 8+    
-数据库： PostgreSQL 9.5+, MariaDB 10.2+, Mysql 5.7+, SQLite, Mongodb, MS SQL Server, Oracle (任意一种)
 
+## 环境安装
 
 **安装Node.js**
 
