@@ -13,9 +13,11 @@
 
 ## 环境要求：
 
-Nodejs: 8+    
+Nodejs: 8+  
+
 数据库： PostgreSQL 9.5+, MariaDB 10.2+, Mysql 5.7+, SQLite, Mongodb, MS SQL Server, Oracle (任意一种)
 
+[1分钟安装环境](#install)
 
 ## 使用说明
 
@@ -75,6 +77,8 @@ sqlite:
 
 
 ## 环境安装
+
+<span id="install">install</span>
 
 **安装Node.js**
 
