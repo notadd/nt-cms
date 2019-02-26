@@ -1,13 +1,13 @@
 type Query {
     getAllClassify(id: Int): AllClassifyResult
-    getOneClassify(id: Int): OneClassifyResult
+    getOneClassify(value: String): OneClassifyResult
     getParentClassify(id: Int): AllClassifyResult
 }
 
 type Mutation {
     addClassify(classify: AddClassifyInput): CommonResult
     deleteClassify(id: Int): CommonResult
-    updateClassify(classify: UpdateClassify): CommonResult
+    updateClassify(classify: UpdateClassifyInput): CommonResult
     mobileArticles(oldId: Int,newId: Int): CommonResult
 }
 
@@ -20,13 +20,22 @@ type AllClassifyResult {
 type OneClassifyResult {
     code: Int
     message: String
-    data: JSON
+    data: OneClassify
+}
+
+type OneClassify {
+    id: Int
+    label: String
+    value: String
+    parent: OneClassify
+    children: [OneClassify]
+    structure: String
 }
 
 type ClassifyData {
     id: Int
-    name: String
-    alias: String
+    label: String
+    value: String
     onlyChildrenArt: Boolean
     classifyItem: [CmsInfoItemData]
 }
@@ -46,23 +55,25 @@ type CommonResult {
 }
 
 input AddClassifyInput {
-    name: String
-    alias: String
+    label: String
+    value: String
     parent: ParentClassify
     onlyChildrenArt: Boolean
     classifyItem: [ClassifyItemInput]
+    structure: String
 }
 
 input ParentClassify {
-    id: Int
+    value: String
 }
 
-input UpdateClassify {
+input UpdateClassifyInput {
     id: Int
-    name: String
-    alias: String
+    label: String
+    value: String
     onlyChildrenArt: Boolean
     parent: ParentClassify
+    structure: String
 }
 
 input ClassifyItemInput {

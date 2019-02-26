@@ -1,7 +1,7 @@
 export interface CreateClassify {
-    name: string;
-    alias: string;
-    parent: { id: number };
+    label: string;
+    value: string;
+    parent: { value: string };
     onlyChildrenArt: boolean;
     order: number;
     classifyItem?: {

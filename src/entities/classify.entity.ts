@@ -16,16 +16,16 @@ export class Classify {
 
     /*分类名称*/
     @Column({
-        nullable: false,
+        nullable: true,
         length: 120,
     })
-    name: string;
+    label: string;
 
     @Column({
         comment: '分类别名',
         nullable: true
     })
-    alias: string;
+    value: string;
 
     @Column({
         nullable: true
@@ -37,6 +37,11 @@ export class Classify {
         default: false
     })
     onlyChildrenArt: boolean;
+
+    @Column({
+        nullable: true
+    })
+    structure: string;
 
     @TreeChildren()
     children: Classify[];

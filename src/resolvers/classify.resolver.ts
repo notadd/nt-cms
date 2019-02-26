@@ -18,14 +18,15 @@ export class ClassifyResolver {
     }
 
     @Query('getOneClassify')
-    async getOneClassify(obj, body: { id: number }) {
-        const result = await this.classifyService.getOneClassify(body.id);
+    async getOneClassify(obj, body: { value: string }) {
+        const result = await this.classifyService.getOneClassify(body.value);
         return { code: 200, message: '查询成功!', data: result };
     }
 
     @Query('getParentClassify')
     async getParentClassify(obj, body: { id: number }) {
-        return await this.classifyService.getParentClassify(body.id);
+        const data = await this.classifyService.getParentClassify(body.id);
+        return { code: 200, message: '查询成功!', data };
     }
 
     @Mutation('addClassify')

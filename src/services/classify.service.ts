@@ -24,22 +24,20 @@ export class ClassifyService {
     async addClassify(classify: CreateClassify) {
         try {
             const ignore = await this.claRepository.count();
-            if (!classify.parent.id || ignore <= 0) {
-                await this.claRepository.save(this.claRepository.create({ name: '总分类', alias: '总分类', onlyChildrenArt: true }));
+            if (!classify.parent.value || ignore <= 0) {
+                await this.claRepository.save(this.claRepository.create({ label: '总分类', value: 'root', onlyChildrenArt: true }));
                 return { code: 200, message: '创建成功' };
             }
             if (classify.parent) {
-                const exist = await this.claRepository.findOne({ id: classify.parent.id });
+                const exist = await this.claRepository.findOne({ value: classify.parent.value });
                 if (!exist) {
                     return { code: 405, message: '当前分类父节点不存在' };
                 }
                 classify.parent = exist;
             }
-            if (classify.alias !== 'all') {
-                const result = await this.claRepository.findOne({ where: { alias: classify.alias } });
-                if (result) {
-                    throw new HttpException('别名重复!', 406);
-                }
+            const result = await this.claRepository.findOne({ where: { value: classify.value } });
+            if (result) {
+                throw new HttpException('别名重复!', 406);
             }
             const exist = await this.claRepository.save(await this.claRepository.create(classify));
             if (classify.classifyItem) {
@@ -111,16 +109,17 @@ export class ClassifyService {
         if (!exist) {
             return { code: 404, message: '当前分类不存在!' };
         }
-        if (classify.alias && classify.alias !== exist.alias) {
-            if (await this.claRepository.findOne({ where: { alias: classify.alias } })) {
+        if (classify.value && classify.value !== exist.value) {
+            if (await this.claRepository.findOne({ where: { value: classify.value } })) {
                 throw new HttpException('该分类别名已存在!', 409);
             }
         }
-        const parent = await this.claRepository.findOne({ id: classify.parent.id });
+        const parent = await this.claRepository.findOne({ value: classify.parent.value });
         if (!parent) {
             throw new HttpException('该上级分类不存在', 404);
         }
         try {
+            classify.parent = parent;
             await this.claRepository.save(await this.claRepository.create(classify));
         } catch (err) {
             throw new HttpException(err.toString(), 500);
@@ -154,20 +153,21 @@ export class ClassifyService {
      *
      * @param id 指定分类id
      */
-    async getOneClassify(id: number) {
-        const exist = await this.claRepository.findOne({ id });
+    async getOneClassify(value: string) {
+        const exist = await this.claRepository.findOne({ where: { value } });
         if (!exist) {
             throw new HttpException('该分类不存在!', 404);
         }
         const data1 = await this.claRepository.findAncestorsTree(exist);
-        const data2 = await this.claRepository.createQueryBuilder('classify').relation(Classify, 'classifyItems').of(id).loadMany();
+        const data2 = await this.claRepository.createQueryBuilder('classify').relation(Classify, 'classifyItems').of(value).loadMany();
         const data = {
             id: data1.id,
-            name: data1.name,
-            alias: data1.alias,
+            name: data1.label,
+            alias: data1.value,
             parent: data1.parent,
             onlyChildrenArt: data1.onlyChildrenArt,
-            clasifyItem: data2
+            clasifyItem: data2,
+            structure: data1.structure
         };
         return data;
     }
