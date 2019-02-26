@@ -17,7 +17,7 @@ v10.15.1
 </details>
 
 <details>
-<summary>Windows</summary>
+<summary>Macos</summary>
 
 1. [点击下载 Node.js](https://npm.taobao.org/mirrors/node/v10.15.1/node-v10.15.1.pkg)
 2. 安装Node.js
@@ -31,7 +31,6 @@ v10.15.1
 ```
 </details>
 
-https://npm.taobao.org/mirrors/node/v10.15.1/node-v10.15.1.pkg
 
 <details>
 <summary>Ubuntu/Debian （支持ARM及X86平台）</summary>
