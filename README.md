@@ -133,6 +133,24 @@ sqlite:
 - `addPicGroup` 新增图片组
 - `addPicture` 新增图片组的图片
 
+## 项目结构
+
+.
+├── ormconfig.js            数据库配置
+├── src
+│   ├── cms.module.ts       cms模块配置
+│   ├── entities            实体对象
+│   ├── graphqls            graphql接口
+│   ├── interceptors        拦截器
+│   ├── interfaces          接口定义
+│   ├── resolvers           resolver层
+│   └── services            方法实现层
+└── starter
+    ├── app.module.ts       根模块
+    └── main.ts             程序入口文件
+
+
+
 ## 环境安装
 
 <span id="install">install</span>
