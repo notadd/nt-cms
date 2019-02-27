@@ -66,16 +66,16 @@ export class CmsModule implements OnModuleInit {
     }
 
     private async createRootClassify() {
-        const root = await this.claRepository.findOne({ where: { alias: '总分类' } });
+        const root = await this.claRepository.findOne({ where: { value: 'root' } });
         if (!root) {
-            await this.classifyService.addClassify({ name: '总分类', alias: '总分类', parent: { id: 0 }, onlyChildrenArt: true, order: 1 });
+            await this.classifyService.addClassify({ label: '总分类', value: 'root', parent: { value: '' }, onlyChildrenArt: true, order: 1 });
         }
     }
 
     private async createPageSortClassify() {
         const root = await this.psRepository.findOne({ where: { alias: '总分类' } });
         if (!root) {
-            await this.pageSortService.createPageSort({ name: '总分类', alias: '总分类', parent: { id: 0 } });
+            await this.pageSortService.createPageSort({ label: '总分类', value: 'root', parent: { value: '' }, structure: ''  });
         }
     }
 
