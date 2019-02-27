@@ -156,6 +156,21 @@ gitclone源码;
 - `addPicGroup` 新增图片组
 - `addPicture` 新增图片组的图片
 
+tips:系统已自动创建一个根分类,所以用户在创建顶级分类时"上级分类"应传'root',即:
+```
+    mutation{
+        addClassify(classify:{
+            label:"分类1",
+            value:"classify_1",
+            parent:{value:"root"}
+        })
+        {
+            code
+            message
+        }
+    }
+```
+
 ## 项目结构
 
 ```
