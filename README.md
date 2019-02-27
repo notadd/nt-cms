@@ -44,7 +44,8 @@ gitclone源码;
 <summary>postgres:</summary>
 
 ```
-    TypeOrmModule.forRoot({
+    const SOURCE_PATH = process.env.NODE_ENV === 'development' ? 'packages' : 'src';
+    module.exports= {
         type: 'postgres',
         host: 'localhost',
         port: 5432,
@@ -56,7 +57,7 @@ gitclone源码;
         logging: true,
         synchronize: true,
         dropSchema: false
-    }),
+    }
 ```
 </details>
 
@@ -64,19 +65,20 @@ gitclone源码;
 <summary>mysql:</summary>
 
 ```
-    TypeOrmModule.forRoot({
+    const SOURCE_PATH = process.env.NODE_ENV === 'development' ? 'packages' : 'src';
+    module.exports= {
         type: 'mysql',
         host: 'localhost',
-        port: '3306',
+        port: 3306,
         username: 'test',
         password: 'test',
-        database: 'test',
-        synchronize: true,
-        logging: true,
+        database: 'module_test',
         entities: [
             'src/**/**.entity.ts'
         ]
-    }),
+        logging: true,
+        synchronize: true
+    }
 ```
 </details>
 <details>
@@ -84,10 +86,16 @@ gitclone源码;
 
 
 ```
-    TypeOrmModule.forRoot({
+    const SOURCE_PATH = process.env.NODE_ENV === 'development' ? 'packages' : 'src';
+    module.exports= {
         type: 'sqlite',
-        database: 'module_test'
-    }) 
+        database: 'cms_test.db',
+        storage: 'src/entities/*.entity.ts',
+        synchronize: true,
+        entities:[
+            'src/entities/*.entity.ts'
+        ]
+    }
 ```
 </details>
 
