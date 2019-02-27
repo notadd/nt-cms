@@ -4,6 +4,11 @@ type Mutation {
     deleteItem(id: Int): CommonResult
 }
 
+type Query {
+    getAllItem(pageNumber: Int, pageSize: Int): AllItemResult
+    getOneItem(id: Int): OneItemResult
+}
+
 input CreateItemInput {
     name: String
     explain: String
@@ -13,6 +18,28 @@ input CreateItemInput {
 }
 
 input UpdateItemInput {
+    id: Int
+    name: String
+    explain: String
+    style: String
+    regular: String
+    info: String
+}
+
+type AllItemResult {
+    code: Int
+    message: String
+    total: Int
+    data: [Item]
+}
+
+type OneItemResult {
+    code: Int
+    message: String
+    data: Item
+}
+
+type Item {
     id: Int
     name: String
     explain: String

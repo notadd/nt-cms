@@ -53,4 +53,17 @@ export class ItemService {
         }
     }
 
+    async getAllItem(pageNumber: number, pageSize: number) {
+        const result = await this.itemRepo.findAndCount({
+            order: { id: 'ASC' },
+            skip: (pageNumber - 1) * pageSize,
+            take: pageSize,
+        });
+        return { data: result[0], total: result[1] };
+    }
+
+    async getOneItem(id: number) {
+        return await this.itemRepo.findOne(id);
+    }
+
 }
