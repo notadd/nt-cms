@@ -106,6 +106,12 @@ export class Article {
     })
     recycling: boolean;
 
+    /*分类结构(由前端传入,无实际作用)*/
+    @Column({
+        nullable: true
+    })
+    structure: string;
+
     /*发布时间*/
     @Column({
         nullable: true,

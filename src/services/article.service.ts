@@ -236,7 +236,8 @@ export class ArticleService {
                 createdAt: i.createdAt,
                 modifyAt: i.modifyAt,
                 artInfos: i.artInfos,
-                keywords: i.keywords
+                keywords: i.keywords,
+                structure: i.structure
             };
             exist.push(a);
         }
@@ -331,6 +332,7 @@ export class ArticleService {
                 status: i.status,
                 recycling: i.recycling,
                 createdAt: i.createdAt,
+                structure: i.structure
             };
             exist.push(a);
         }
@@ -382,6 +384,7 @@ export class ArticleService {
             username: art.username,
             keywords: art.keywords,
             like: art.like,
+            structure: art.structure,
             artInfos: items.length ? items.map(item => {
                 const artInfo = art.artInfos.find(artInfo => artInfo.item.id === item.id);
                 return {
@@ -440,7 +443,8 @@ export class ArticleService {
                 recycling: i.recycling,
                 createdAt: i.createdAt,
                 keywords: i.keywords,
-                like: i.like
+                like: i.like,
+                structure: i.structure
             };
             exist.push(a);
         }

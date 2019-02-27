@@ -12,6 +12,7 @@ export interface InputArticle {
     status: number;
     source: string;
     sourceUrl: string;
+    structure: string;
     createAt: string;
     infoKVs?: {
         artInfoId: number;
@@ -31,6 +32,7 @@ export interface UpdateArticle {
     top: boolean;
     source: string;
     modifyAt?: string;
+    structure: string;
     status?: number;
     infoKVs?: {
         artInfoId: number;
@@ -45,13 +47,14 @@ export  interface ArtResult {
     title: string;
     classify: {
         id: number;
-        name: string;
-        alias: string;
+        label: string;
+        value: string;
         onlyChildrenArt: boolean;
     };
     sourceUrl: string;
     cover: string;
     abstract: string;
+    structure: string;
     content: string;
     top: boolean;
     source: string;
