@@ -1,0 +1,29 @@
+type Query{
+    getIndex: IndexResult
+}
+
+type Mutation{
+    updateIndex(index: UpdateIndexInput): CommonResult
+}
+
+type IndexResult {
+    code: Int
+    message: String
+    data: Index
+}
+
+type Index {
+    name: String
+    filing: String
+    link: String
+    isCheckArt: Boolean
+    code: String
+}
+
+input UpdateIndexInput {
+    name: String
+    filing: String
+    link: String
+    isCheckArt: Boolean
+    code: String
+}

@@ -1,0 +1,124 @@
+type Query{
+    getAllArticle(classifyAlias: String, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getRecycleArticle(classifyAlias: String, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getCheckArticle(classifyAlias: String, createdAt: String, title: String, pageNumber: Int, pageSize: Int, endTime: String, username: String,top: Boolean): AllArticleResponse 
+    getArticleById(id: Int): OneArticleResponse
+    userGetArticles(alias: String, pageNumber: Int, pageSize: Int): UserGetArtResponse
+}
+
+type Mutation{
+    createArticle(article: CreateArticleInput): CommonResult
+    updateArticle(article: UpdateArticleInput): CommonResult
+    recycleArticleByIds(ids: [Int]): CommonResult
+    deleteArticleByIds(ids: [Int]): CommonResult
+    recoverArticleByIds(ids: [Int]): CommonResult
+    auditArticle(ids: [Int], op: Int, refuseReason: String): CommonResult
+}
+
+type AllArticleResponse {
+    code: Int
+    message: String
+    total: Int
+    data: [Art]
+}
+
+type UserGetArtResponse {
+    code: Int
+    message: String
+    total: Int
+    data: [UserArt]
+}
+
+type UserArt {
+    id: Int
+    title: String
+    content: String
+    abstract: String
+    classify: ClassifyData
+    createdAt: String
+    modifyAt: String
+    cover: String
+    keywords: String
+    like: Int
+    sourceUrl: String
+    source: String
+}
+
+type Art {
+    id: Int
+    title: String
+    source: String
+    classify: OneClassifyData
+    sourceUrl: String
+    top: Boolean
+    views: Int
+    cover: String
+    abstract: String
+    content: String
+    status: Int
+    refuseReason: String
+    recycling: Boolean
+    hidden: Boolean
+    createdAt: String
+    modifyAt: String
+    username: String
+    artInfos: JSON
+    keywords: String
+    like: Int
+    structure: String
+}
+
+type OneClassifyData {
+    id: Int
+    label: String
+    value: String
+    order: Int
+    onlyChildrenArt: Boolean
+}
+
+type OneArticleResponse {
+    code: Int
+    message: String
+    data: OneArt
+}
+
+type OneArt {
+    pre: Int
+    current: Art
+    next: Int
+}
+
+input CreateArticleInput {
+    title: String
+    username: String
+    classify: CreateArticleClassify
+    cover: String
+    abstract: String
+    content: String
+    top: Boolean
+    hidden: Boolean
+    source: String
+    sourceUrl: String
+    structure: String
+    artInfos: JSON
+}
+
+input CreateArticleClassify {
+    value: String
+}
+
+input UpdateArticleInput {
+    id: Int
+    title: String
+    username: String
+    classify: CreateArticleClassify
+    cover: String
+    abstract: String
+    content: String
+    top: Boolean
+    hidden: Boolean
+    source: String
+    sourceUrl: String
+    structure: String
+    artInfos: JSON
+}
