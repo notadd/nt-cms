@@ -1,7 +1,0 @@
-type Pictures {
-    id: Int
-    title: String
-    name: String
-    Url: String
-    sequence: Int
-}
