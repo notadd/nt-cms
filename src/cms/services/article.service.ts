@@ -37,29 +37,7 @@ export class ArticleService {
         art.owner = owner;
         art.classify = classify;
         await this.artRepo.save(this.artRepo.create(art));
-        // if (art.infoKVs && art.infoKVs.length) {
-        //     await this.createOrUpdateArtInfos(exist, art.infoKVs, 'create');
-        // }
     }
-
-    // tslint:disable-next-line:max-line-length
-    // private async createOrUpdateArtInfos(art: Article, infoKVs: { artInfoKey: string, artInfoValue: string, id?: number }[], action: 'create' | 'update') {
-    //     if (infoKVs.length) {
-    //         if (action === 'create') {
-    //             infoKVs.forEach(async infoKV => {
-    //                 await this.aiRepo.save(this.aiRepo.create({ value: infoKV.artInfoValue, article: art, key: infoKV.artInfoKey }));
-    //             });
-    //             return;
-    //         }
-    //         infoKVs.forEach(async infoKV => {
-    //             if (infoKV.id) {
-    //                 this.aiRepo.update(infoKV.id, { value: infoKV.artInfoValue });
-    //             } else {
-    //                 await this.aiRepo.save(this.aiRepo.create({ value: infoKV.artInfoValue, article: art, key: infoKV.artInfoKey }));
-    //             }
-    //         });
-    //     }
-    // }
 
     /**
      * 修改文章
@@ -69,7 +47,7 @@ export class ArticleService {
      */
     async updateArticle(art: UpdateArticle, owner: number) {
         try {
-            const article = await this.artRepo.findOne(art.id, { relations: ['artInfos'] });
+            const article = await this.artRepo.findOne(art.id);
             if (!article) {
                 throw new HttpException('该文章不存在!', 404);
             }
@@ -177,12 +155,6 @@ export class ArticleService {
                 break;
             case 2:
                 await this.artRepo.update(ids, { status: op, refuseReason });
-                // for (let i = 0; i < ids.length; i++) {
-                //     await this.mesRepo.save(this.mesRepo.create({
-                //         content: `你的文章《${arts[i].title}》审核未通过,原因如下:${refuseReason}`,
-                //         owner: arts[i].userId
-                //     }));
-                // }
                 break;
             default:
                 throw new HttpException('status参数错误', 405);
@@ -212,7 +184,7 @@ export class ArticleService {
             if (!cla) {
                 throw new HttpException('该分类不存在!', 404);
             }
-            sqb.andWhere('article.classify = :classifyId', { classifyId: cla.id });
+            sqb.andWhere('article.classify = :classify', { classify: cla.id });
         }
         if (title) {
             sqb.andWhere('article.title Like :title', { title: `%${title}%` });
@@ -229,13 +201,16 @@ export class ArticleService {
             sqb.andWhere('article.createdAt < :end', { end: max });
         }
         if (top) {
-            sqb.andWhere('article.top = :top', { top });
+            sqb.andWhere('article.top In (1,2) ');
+        }
+        if (top === false) {
+            sqb.andWhere('article.top = :top', { top: 0 });
         }
         // tslint:disable-next-line:max-line-length
         const result = await sqb.skip(pageSize * (pageNumber - 1)).take(pageSize).orderBy({ 'article.top': 'DESC', 'article.modifyAt': 'DESC' }).getManyAndCount();
         const exist: ArtResult[] = [];
         for (const i of result[0]) {
-            const classify = await this.claRepo.findOne(i.classify);
+            const classify = await this.claRepo.findOne(i.classify.id);
             const a = {
                 id: i.id,
                 title: i.title,
@@ -246,12 +221,13 @@ export class ArticleService {
                 content: i.content,
                 top: i.top,
                 source: i.source,
-                createAt: i.createdAt,
                 username,
                 status: i.status,
                 recycling: i.recycling,
                 createdAt: i.createdAt,
                 modifyAt: i.modifyAt,
+                views: i.views,
+                like: i.like,
                 artInfos: i.artInfos,
                 keywords: i.keywords,
                 structure: i.structure,
@@ -314,13 +290,15 @@ export class ArticleService {
      */
     // tslint:disable-next-line:max-line-length
     async getRecycleArticle(classifyAlias: string, createdAt: string, endTime: string, title: string, username: string, top: boolean, pageNumber: number, pageSize: number) {
-        const sqb = this.artRepo.createQueryBuilder('article').where('article.recycling = :recycling', { recycling: true });
+        const sqb = this.artRepo.createQueryBuilder('article')
+            .where('article.recycling = :recycling', { recycling: true })
+            .leftJoinAndSelect('article.classify', 'classify');
         if (classifyAlias) {
             const cla = await this.claRepo.findOne({ where: { value: classifyAlias } });
             if (!cla) {
                 throw new HttpException('该分类不存在!', 404);
             }
-            sqb.andWhere('article.classify = :classifyId', { classifyId: cla.id });
+            sqb.andWhere('article.classify = :classify', { classify: cla.id });
         }
         if (title) {
             sqb.andWhere('article.title Like :title', { title: `%${title}%` });
@@ -334,12 +312,18 @@ export class ArticleService {
             sqb.andWhere('article.createdAt > :start', { start: min });
             sqb.andWhere('article.createdAt < :end', { end: max });
         }
+        if (top) {
+            sqb.andWhere('article.top In (1,2) ');
+        }
+        if (top === false) {
+            sqb.andWhere('article.top = :top', { top: 0 });
+        }
         // tslint:disable-next-line:max-line-length
         const result = await sqb.skip(pageSize * (pageNumber - 1)).take(pageSize).orderBy({ 'article.top': 'DESC', 'article.modifyAt': 'DESC' }).getMany();
         const exist: ArtResult[] = [];
         const total = await sqb.getCount();
         for (const i of result) {
-            const classify = await this.claRepo.findOne(i.classify);
+            const classify = await this.claRepo.findOne(i.classify.id);
             const a = {
                 id: i.id,
                 title: i.title,
@@ -350,12 +334,15 @@ export class ArticleService {
                 content: i.content,
                 top: i.top,
                 source: i.source,
-                createAt: i.createdAt,
                 username,
                 status: i.status,
+                views: i.views,
+                like: i.like,
                 recycling: i.recycling,
                 createdAt: i.createdAt,
-                structure: i.structure
+                modifyAt: i.modifyAt,
+                structure: i.structure,
+                artInfos: i.artInfos
             };
             exist.push(a);
         }
@@ -388,8 +375,6 @@ export class ArticleService {
             )
             .getOne();
         const data = await this.artRepo.save(this.artRepo.create(art));
-        // .orderBy('item.order', 'ASC')
-        // const data = this.refactorArticle(art, item);
         return { pre: pre ? pre.id : undefined, current: data, next: next ? next.id : undefined };
     }
 
@@ -402,13 +387,14 @@ export class ArticleService {
     async getCheckArticle(classifyAlias: string, createdAt: string, endTime: string, title: string, username: string, top: boolean, pageNumber: number, pageSize: number) {
         const sqb = this.artRepo.createQueryBuilder('article')
             .where('article.recycling = :recycling', { recycling: false })
-            .andWhere('article.status = :status', { status: 0 });
+            .andWhere('article.status = :status', { status: 0 })
+            .leftJoinAndSelect('article.classify', 'classify');
         if (classifyAlias) {
             const cla = await this.claRepo.findOne({ where: { value: classifyAlias } });
             if (!cla) {
                 throw new HttpException('该分类不存在!', 404);
             }
-            sqb.andWhere('article.classify = :classifyId', { classifyId: cla.id });
+            sqb.andWhere('article.classify = :classify', { classify: cla.id });
         }
         if (title) {
             sqb.andWhere('article.title Like :title', { title: `%${title}%` });
@@ -422,11 +408,17 @@ export class ArticleService {
             sqb.andWhere('article.createdAt > :start', { start: min });
             sqb.andWhere('article.createdAt < :end', { end: max });
         }
+        if (top) {
+            sqb.andWhere('article.top In (1,2) ');
+        }
+        if (top === false) {
+            sqb.andWhere('article.top = :top', { top: 0 });
+        }
         const result = await sqb.skip(pageSize * (pageNumber - 1)).take(pageSize).orderBy({ 'article.modifyAt': 'ASC' }).getMany();
         const exist: ArtResult[] = [];
         const total = await sqb.getCount();
         for (const i of result) {
-            const classify = await this.claRepo.findOne(i.classify);
+            const classify = await this.claRepo.findOne(i.classify.id);
             const a = {
                 id: i.id,
                 title: i.title,
@@ -437,14 +429,16 @@ export class ArticleService {
                 content: i.content,
                 top: i.top,
                 source: i.source,
-                createAt: i.createdAt,
+                createdAt: i.createdAt,
                 username,
                 status: i.status,
                 recycling: i.recycling,
-                createdAt: i.createdAt,
-                keywords: i.keywords,
+                views: i.views,
                 like: i.like,
-                structure: i.structure
+                modifyAt: i.modifyAt,
+                keywords: i.keywords,
+                structure: i.structure,
+                artInfos: i.artInfos
             };
             exist.push(a);
         }

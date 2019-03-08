@@ -66,11 +66,11 @@ export class Article {
     })
     content: string;
 
-    /*置顶*/
+    /*置顶,0: 不置顶,1:分类置顶,2:全局置顶*/
     @Column({
-        default: false
+        default: 0
     })
-    top: boolean;
+    top: number;
 
     /*来源*/
     @Column({
@@ -152,10 +152,15 @@ export class Article {
         type: 'varchar',
         transformer: {
             from: (data) => {
-                return JSON.parse(data);
+                if (data) {
+                    return JSON.parse(data);
+                } else {
+                    // tslint:disable-next-line:no-null-keyword
+                    return null;
+                }
             },
             to: (data) => {
-                data = data ? JSON.stringify(data).replace(/[\n]/g, '<br/>') : '';
+                data = data ? JSON.stringify(data) : undefined;
                 return data;
             }
         }

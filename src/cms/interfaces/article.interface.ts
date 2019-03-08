@@ -8,7 +8,7 @@ export interface InputArticle {
     cover: string;
     abstract: string;
     content: string;
-    top: boolean;
+    top: number;
     hidden: boolean;
     status: number;
     source: string;
@@ -28,7 +28,7 @@ export interface UpdateArticle {
     cover: string;
     abstract: string;
     content: string;
-    top: boolean;
+    top: number;
     hidden: boolean;
     source: string;
     structure: string;
@@ -52,7 +52,8 @@ export  interface ArtResult {
     structure: string;
     abstract: string;
     content: string;
-    top: boolean;
+    top: number;
     source: string;
     username: string;
+    artInfos: JSON;
 }

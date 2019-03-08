@@ -37,15 +37,7 @@ export class ClassifyService {
                     throw new HttpException('别名重复!', 406);
                 }
             }
-            await this.claRepository.save(await this.claRepository.create({
-                label: classify.label,
-                value: classify.value,
-                order: classify.order,
-                onlyChildrenArt: classify.onlyChildrenArt,
-                structure: classify.structure,
-                parent: classify.parent,
-                itemJson: JSON.stringify(classify.itemJson).replace(/[\n]/g, '<br/>')
-            }));
+            await this.claRepository.save(await this.claRepository.create(classify));
 
         } catch (err) {
             throw new HttpException(err.toString(), 500);
@@ -114,9 +106,6 @@ export class ClassifyService {
         }
         try {
             classify.parent = parent;
-            console.log(typeof(classify.itemJson));
-            classify.itemJson = JSON.stringify(classify.itemJson).replace(/[\n]/g, '<br/>');
-            console.log(classify.itemJson);
             await this.claRepository.save(await this.claRepository.create(classify));
         } catch (err) {
             throw new HttpException(err.toString(), 500);
@@ -135,10 +124,6 @@ export class ClassifyService {
             if (!exist) {
                 throw new HttpException('该分类不存在!', 404);
             }
-            // tslint:disable-next-line:max-line-length
-            // const result = await this.claRepository.createDescendantsQueryBuilder('classify','classify',exist).orderBy('classify.order','ASC').getMany();
-            // console.log(result);
-            // return result;
             return await this.claRepository.findDescendantsTree(exist);
         } else {
             return await this.claRepository.findTrees();
@@ -155,16 +140,7 @@ export class ClassifyService {
         if (!exist) {
             throw new HttpException('该分类不存在!', 404);
         }
-        const data1 = await this.claRepository.findAncestorsTree(exist);
-        const data = {
-            id: data1.id,
-            label: data1.label,
-            value: data1.value,
-            parent: data1.parent,
-            onlyChildrenArt: data1.onlyChildrenArt,
-            structure: data1.structure,
-            itemJson: JSON.parse(data1.itemJson)
-        };
+        const data = await this.claRepository.findAncestorsTree(exist);
         return data;
     }
 

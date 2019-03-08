@@ -50,7 +50,7 @@ type Art {
     source: String
     classify: OneClassifyData
     sourceUrl: String
-    top: Boolean
+    top: Int
     views: Int
     cover: String
     abstract: String
@@ -95,7 +95,7 @@ input CreateArticleInput {
     cover: String
     abstract: String
     content: String
-    top: Boolean
+    top: Int
     hidden: Boolean
     source: String
     sourceUrl: String
@@ -115,7 +115,7 @@ input UpdateArticleInput {
     cover: String
     abstract: String
     content: String
-    top: Boolean
+    top: Int
     hidden: Boolean
     source: String
     sourceUrl: String

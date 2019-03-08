@@ -54,12 +54,23 @@ export class Classify {
 
     // 信息项JSON表单
     @Column({
-        nullable: true
+        nullable: true,
+        type: 'varchar',
+        transformer: {
+            from: (data) => {
+                if (data) {
+                    return JSON.parse(data);
+                } else {
+                    // tslint:disable-next-line:no-null-keyword
+                    return null;
+                }
+            },
+            to: (data) => {
+                data = data ? JSON.stringify(data) : undefined;
+                return data;
+            }
+        }
     })
-    itemJson: string;
-
-
-    // @OneToMany(type => ClassifyItem, classifyItem => classifyItem.classify)
-    // classifyItems: ClassifyItem[];
+    itemJson: JSON;
 
 }
