@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {CmsModule} from '../src/cms.module';
 import { GraphqlConfig } from './graphql.config';
+import { CmsModule } from '../src/cms/cms.module';
+import { UserModule } from '../src/user/user.module';
 
 @Module({
     imports: [
@@ -10,7 +11,8 @@ import { GraphqlConfig } from './graphql.config';
             useClass: GraphqlConfig
         }),
         TypeOrmModule.forRoot(),
-        CmsModule
+        CmsModule,
+        UserModule
     ],
     controllers: [],
     providers: [],
