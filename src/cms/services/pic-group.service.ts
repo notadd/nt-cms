@@ -1,6 +1,6 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PictureGroup } from '../entities/pictureGroup.entity';
+import { PictureGroup } from '../entities/picture-group.entity';
 import { Repository } from 'typeorm';
 import { Picture } from '../entities/picture.entity';
 
@@ -71,5 +71,14 @@ export class PicGroupService {
     async updatePicGroup(pG: PictureGroup) {
         await this.pGRepo.save(pG);
     }
+
+    async findPicture(id: number) {
+        const data = await this.picRepo.findOne(id);
+        if (!data) {
+            throw new HttpException('该图片不存在!', 404);
+        }
+        return data;
+    }
+
 
 }

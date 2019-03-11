@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from 'typeorm';
-import { PictureGroup } from './pictureGroup.entity';
+import { PictureGroup } from './picture-group.entity';
 
 // 图片实体
-@Entity('Picture')
+@Entity('picture')
 export class Picture {
     @PrimaryGeneratedColumn({ comment: '自增主键', })
     id: number;

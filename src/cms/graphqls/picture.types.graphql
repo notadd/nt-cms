@@ -1,3 +1,13 @@
+type Query {
+    findPicture(id: Int): findPictureResult
+}
+
+type findPictureResult {
+    code: Int
+    message: String
+    data: Pictures
+}
+
 type Pictures {
     id: Int
     title: String

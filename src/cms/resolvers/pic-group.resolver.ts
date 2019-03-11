@@ -1,8 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { Resolver, Mutation, Query } from '@nestjs/graphql';
-import { PictureGroup } from '../entities/pictureGroup.entity';
+import { PictureGroup } from '../entities/picture-group.entity';
 import { Picture } from '../entities/picture.entity';
-import { PicGroupService } from '../services/picGroup.service';
+import { PicGroupService } from '../services/pic-group.service';
 
 @Resolver('picGroupResolver')
 // tslint:disable-next-line:class-name
@@ -61,5 +61,12 @@ export class picGroupResolver {
         await this.pGService.updatePicGroup(body.pG);
         return { code: 200, message: '修改成功' };
     }
+
+    @Query('findPicture')
+    async findPicture(req, abc) {
+        const data = await this.pGService.findPicture(abc.id);
+        return { code: 200, message: '查询成功!', data };
+    }
+
 
 }

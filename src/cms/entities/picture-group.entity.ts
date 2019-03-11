@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Picture } from './picture.entity';
 
 // 图组实体
-@Entity('PictureGroup')
+@Entity('picture_group')
 export class PictureGroup {
   @PrimaryGeneratedColumn({ comment: '自增主键', })
   id: number;
