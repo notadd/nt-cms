@@ -29,7 +29,7 @@
     "rimraf": "^2.6.2",
     "rxjs": "^6.2.2",
     "ts-node": "^8.0.2",
-    "typeorm": "^0.2.13",
+    "typeorm": "^0.2.15",
     "typescript": "3.2.2",
     "underscore": "^1.9.1"
   },
