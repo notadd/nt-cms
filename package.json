@@ -43,7 +43,7 @@
     "@types/i18n": "0.8.5",
     "@types/jsonwebtoken": "8.3.2",
     "@types/node": "11.13.10",
-    "gulp": "3.9.1",
+    "gulp": "4.0.2",
     "gulp-sequence": "1.0.0",
     "gulp-sourcemaps": "2.6.5",
     "gulp-tslint": "8.1.4",
