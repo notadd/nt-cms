@@ -26,7 +26,7 @@
     "graphql-tools": "4.0.4",
     "graphql-type-json": "0.2.1",
     "moment": "2.24.0",
-    "pg": "7.8.0",
+    "pg": "7.11.0",
     "reflect-metadata": "0.1.13",
     "rimraf": "2.6.3",
     "rxjs": "6.4.0",
