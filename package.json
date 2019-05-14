@@ -34,7 +34,7 @@
     "typeorm": "0.2.17",
     "typescript": "3.2.2",
     "underscore": "1.9.1",
-    "snyk": "1.163.3"
+    "snyk": "1.164.0"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.2",
